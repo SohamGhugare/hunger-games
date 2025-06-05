@@ -18,6 +18,7 @@
     "@xsolla-zk/config": "latest",
     "@xsolla-zk/icons": "latest",
     "@xsolla-zk/react": "latest",
+    "lucide-react": "^0.513.0",
     "next": "catalog:next15",
     "react": "*",
     "react-dom": "*",

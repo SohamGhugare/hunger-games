@@ -4,6 +4,7 @@ import React from 'react';
 import { Stack, Text, Button, SemanticText } from '@xsolla-zk/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { EyeOff, Move, Search, Sword, Users } from 'lucide-react';
 
 export default function HowToPlay() {
   const router = useRouter();
@@ -86,14 +87,38 @@ export default function HowToPlay() {
             number="2" 
             title="Make your choice" 
             description={
-              <Stack gap="$space.200">
-                <Text color="white">Each round, you'll be given 3 random actions to choose from:</Text>
-                <Stack gap="$space.100" marginLeft="$space.200">
-                  <Text color="white">• <Text fontWeight="bold">Hide:</Text> Avoid danger and lower your chance of being targeted.</Text>
-                  <Text color="white">• <Text fontWeight="bold">Search for Supplies:</Text> Find food, weapons, or useful tools.</Text>
-                  <Text color="white">• <Text fontWeight="bold">Attack:</Text> Target another player in your zone to eliminate them.</Text>
-                  <Text color="white">• <Text fontWeight="bold">Move Zones:</Text> Navigate to a new area in the arena.</Text>
-                  <Text color="white">• <Text fontWeight="bold">Form Alliance:</Text> Team up with others (temporary or treacherous?).</Text>
+              <Stack gap="$space.400">
+                <Text color="white" textAlign="left">Each round, you'll be given 3 random actions to choose from:</Text>
+                <Stack gap="$space.400">
+                  <Stack flexDirection="row" flexWrap="wrap" gap="$space.400" justifyContent="center">
+                    <ActionCard 
+                      icon="eye-off" 
+                      title="Hide" 
+                      description="Avoid danger and lower your chance of being targeted" 
+                    />
+                    <ActionCard 
+                      icon="search" 
+                      title="Search for Supplies" 
+                      description="Find food, weapons, or useful tools" 
+                    />
+                    <ActionCard 
+                      icon="sword" 
+                      title="Attack" 
+                      description="Target another player in your zone to eliminate them" 
+                    />
+                  </Stack>
+                  <Stack flexDirection="row" flexWrap="wrap" gap="$space.400" justifyContent="center">
+                    <ActionCard 
+                      icon="move" 
+                      title="Move Zones" 
+                      description="Navigate to a new area in the arena" 
+                    />
+                    <ActionCard 
+                      icon="users" 
+                      title="Form Alliance" 
+                      description="Team up with others (temporary or treacherous?)" 
+                    />
+                  </Stack>
                 </Stack>
               </Stack>
             }
@@ -141,6 +166,48 @@ export default function HowToPlay() {
           <Button.Text>Back to Home</Button.Text>
         </Button>
       </Stack>
+    </Stack>
+  );
+}
+
+type IconName = 'eye-off' | 'search' | 'sword' | 'move' | 'users';
+
+const iconComponents = {
+  'eye-off': EyeOff,
+  'search': Search,
+  'sword': Sword,
+  'move': Move,
+  'users': Users
+};
+
+function ActionCard({ icon, title, description }: { icon: IconName; title: string; description: string }) {
+  const IconComponent = iconComponents[icon];
+  
+  return (
+    <Stack 
+      backgroundColor="rgba(255, 255, 255, 0.15)" 
+      borderRadius="$radius.300" 
+      padding="$space.400"
+      minWidth={100}
+      maxWidth={175}
+      flex={1}
+      gap="$space.200"
+      borderWidth={1}
+      borderColor="rgba(255, 255, 255, 0.1)"
+    >
+      <Stack 
+        width={40} 
+        height={40} 
+        borderRadius="$radius.300" 
+        backgroundColor="rgba(255, 255, 255, 0.1)" 
+        justifyContent="center" 
+        alignItems="center"
+        marginBottom="$space.200"
+      >
+        {IconComponent && <IconComponent size={20} color="white" />}
+      </Stack>
+      <Text fontWeight="bold" color="white" fontSize="$400">{title}</Text>
+      <Text color="rgba(255, 255, 255, 0.8)" fontSize="$300">{description}</Text>
     </Stack>
   );
 }

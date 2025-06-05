@@ -3,9 +3,20 @@
 import { Stack, Text, Button } from '@xsolla-zk/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const [isConnecting, setIsConnecting] = useState(false);
+  
+  const handleConnectWallet = () => {
+    setIsConnecting(true);
+    // Simulate wallet connection delay
+    setTimeout(() => {
+      router.push('/lobby');
+    }, 2000);
+  };
+  
   return (
     <Stack 
       flex={1} 
@@ -75,12 +86,10 @@ export default function HomeScreen() {
           marginTop="$space.600"
           paddingHorizontal="$space.600"
           paddingVertical="$space.400"
-          onPress={() => {
-            // Wallet connection logic will go here
-            console.log('Connect Wallet clicked');
-          }}
+          onPress={handleConnectWallet}
+          disabled={isConnecting}
         >
-          <Button.Text>Connect Wallet</Button.Text>
+          <Button.Text>{isConnecting ? 'Connecting...' : 'Connect Wallet'}</Button.Text>
         </Button>
       </Stack>
     </Stack>

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Stack, Text, Button, SemanticText } from '@xsolla-zk/react';
+import { Stack, Text, Button } from '@xsolla-zk/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { EyeOff, Move, Search, Sword, Users } from 'lucide-react';

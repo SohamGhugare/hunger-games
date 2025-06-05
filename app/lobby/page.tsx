@@ -1,16 +1,17 @@
 'use client';
 
-import { Button, Dialog, Stack, Text } from '@xsolla-zk/react';
+import { useRouter } from 'next/navigation';
+import { Button, Stack, Text } from '@xsolla-zk/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function LobbyPage() {
-  const [timeLeft, setTimeLeft] = useState(10);
-  const [showGameStartModal, setShowGameStartModal] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(5);
+  const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
     if (timeLeft === 0) {
-      setShowGameStartModal(true);
+      setGameStarted(true);
       return;
     }
     
@@ -21,9 +22,11 @@ export default function LobbyPage() {
     return () => clearInterval(timer);
   }, [timeLeft]);
 
+  const router = useRouter();
+
   const handleEnterGame = () => {
-    // Handle game entry logic here
-    console.log('Entering game...');
+    // Navigate to the game round page
+    router.push('/game/round');
   };
 
   return (
@@ -94,51 +97,44 @@ export default function LobbyPage() {
         >
           <Text color="white" fontWeight="bold">Players:</Text>
           <Text color="white">Player 1: You</Text>
+          <Stack alignItems="center" gap="$space.400" marginTop="$space.600">
+            {!gameStarted ? (
+              <Text 
+                fontSize={24} 
+                paddingHorizontal="$space.500"
+                paddingVertical="$space.300"
+                backgroundColor="rgba(255, 255, 255, 0.1)"
+                borderRadius="$radius.300"
+              >
+                Game Begins in... {timeLeft}s
+              </Text>
+            ) : (
+              <Stack alignItems="center" gap="$space.600">
+                <Text 
+                  fontSize={24} 
+                  paddingHorizontal="$space.500"
+                  paddingVertical="$space.300"
+                  backgroundColor="rgba(255, 255, 255, 0.1)"
+                  borderRadius="$radius.300"
+                  textAlign="center"
+                >
+                  The game has begun!
+                  <Text display="block" fontSize={16} color="$content.neutral-secondary" marginTop="$space.200">
+                    May the odds be in your favour
+                  </Text>
+                </Text>
+                <Button 
+                  onPress={handleEnterGame}
+                  width="100%"
+                  maxWidth={300}
+                >
+                  <Button.Text>Enter</Button.Text>
+                </Button>
+              </Stack>
+            )}
+          </Stack>
         </Stack>
-
-        {timeLeft > 0 && (
-          <Text 
-            color="white" 
-            fontSize={20}
-            marginTop="$space.800" 
-            paddingHorizontal="$space.600"
-            paddingVertical="$space.300"
-            backgroundColor="rgba(255, 255, 255, 0.1)"
-            borderRadius="$radius.300"
-          >
-            Game Begins in... {timeLeft}s
-          </Text>
-        )}
       </Stack>
-
-      {timeLeft === 0 && (
-        <Dialog open={showGameStartModal} onOpenChange={setShowGameStartModal}>
-          <Dialog.Overlay />
-          <Dialog.Content 
-            width="90%" 
-            maxWidth={500} 
-            backgroundColor="$layer.floor-0" 
-            borderRadius="$radius.400" 
-            padding="$space.500" 
-            gap="$space.400" 
-            alignItems="center"
-          >
-            <Dialog.Title textAlign="center" fontSize={24}>
-              The game has begun
-            </Dialog.Title>
-            <Dialog.Description textAlign="center" color="$content.neutral-secondary" fontSize={16}>
-              May the odds be in your favour
-            </Dialog.Description>
-            <Button 
-              marginTop="$space.400" 
-              onPress={handleEnterGame}
-              width="100%"
-            >
-              <Button.Text>Enter</Button.Text>
-            </Button>
-          </Dialog.Content>
-        </Dialog>
-      )}
     </Stack>
   );
 }

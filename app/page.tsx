@@ -2,8 +2,10 @@
 
 import { Stack, Text, Button } from '@xsolla-zk/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function HomeScreen() {
+  const router = useRouter();
   return (
     <Stack 
       flex={1} 
@@ -60,6 +62,9 @@ export default function HomeScreen() {
           maxWidth={800}
           fontSize="$400"
           marginTop="$space.400"
+          cursor="pointer"
+          textDecorationLine="underline"
+          onPress={() => router.push('/how-to-play')}
         >
           How to play
         </Text>
